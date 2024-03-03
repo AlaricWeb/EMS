@@ -2,7 +2,6 @@
 import NavMenu from "@/layout/NavMenu.vue";
 import { RouterView } from "vue-router";
 import Navigator from "@/layout/Navigator.vue";
-
 </script>
 <template>
  <ElContainer class="layout-container">
@@ -29,12 +28,13 @@ import Navigator from "@/layout/Navigator.vue";
         }
         .layout-content{
         .layout-header{
-            height: 40px;
+            height: 80px;
+            padding:0;
         }
         .layout-main{
             padding:0 1em;
             background-color: #eceff7;
         }
-        }  
+      }  
     }
 </style>

@@ -44,3 +44,5 @@ pnpm build
 ```sh
 pnpm test:unit
 ```
+
+## 添加 husky 

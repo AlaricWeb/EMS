@@ -33,7 +33,7 @@ import Navigator from "@/layout/Navigator.vue";
         }
         .layout-main{
             padding:0 1em;
-            background-color: #eceff7;
+            background-color: #f5f7fa;
         }
       }  
     }

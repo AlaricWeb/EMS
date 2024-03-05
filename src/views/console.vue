@@ -190,7 +190,7 @@ const option = reactive<EChartsOption>({
     }
   ]
 });
-
+console.log("test")
 const option2 = {
   title: {
     text: 'Gradient Stacked ',

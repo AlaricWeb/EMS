@@ -6,6 +6,10 @@ import { viteMockServe } from "vite-plugin-mock";
 export default defineConfig({
     plugins: [
       vue(),
+      viteMockServe({
+        mockPath:"mock",
+        enable:true
+      })
     ],
     server: {
       host: true,

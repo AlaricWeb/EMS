@@ -24,5 +24,29 @@ export default [
         }
       }
     }
+  },
+  {
+    url: '/admin/v1/system/user',
+    method: 'put',
+    response({ query }) {
+      return {
+        code: 200,
+        data: {
+          m: 'put'
+        }
+      }
+    }
+  },
+  {
+     url: '/admin/v1/system/user',
+    method: 'delete',
+    response({ query }) {
+      return {
+        code: 200,
+        data: {
+          m: 'delete'
+        }
+      }
+    }
   }
 ] as MockMethod[]

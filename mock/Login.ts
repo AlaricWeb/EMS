@@ -6,7 +6,6 @@ export default function (): Array<MockMethod> {
       url: "/admin/v1/login/password",
       method: "post",
       response({ query}) {
-        
         return {
           code: 200,
           msg:"登录成功",

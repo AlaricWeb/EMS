@@ -6,8 +6,8 @@ const instance = Axios.create({
 instance.interceptors.request.use((config) => {
   return config;
 });
-instance.interceptors.response.use((response)=>{
-    return response;
+instance.interceptors.response.use(({data})=>{
+    return data.data;
 },(error)=>{
     console.log(error);
 })

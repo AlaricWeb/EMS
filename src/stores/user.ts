@@ -4,7 +4,9 @@ export const useUserStore = defineStore("user", {
    state() {
        return {
          token:"",
-         uerinfo:{}
+         userinfo:{
+           nickname:""
+         }
        }
    },
   actions:{
@@ -15,9 +17,7 @@ export const useUserStore = defineStore("user", {
           method:'post',
           data:{account,password}
         })
-         this.token = user.token
-         //@ts-ignore
-         this.userinfo = user;
+         this.token = user.token;
          return user;
        } catch (error) {
          return false;
@@ -28,7 +28,6 @@ export const useUserStore = defineStore("user", {
            url:"/login/userinfo",
            method:'get'
         });
-        console.log(userinfo);
         return userinfo;
      }
   },

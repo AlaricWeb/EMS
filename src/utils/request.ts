@@ -1,6 +1,6 @@
 import Axios  from "axios";
 const instance = Axios.create({
-  baseURL: import.meta.env.VITE_API_VERSION,
+  baseURL: import.meta.env.VITE_BASE_URL,
   timeout: 5000,
 });
 instance.interceptors.request.use((config) => {

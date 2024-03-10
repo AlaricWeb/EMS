@@ -20,6 +20,7 @@ const formData = reactive<FormData>({
 const userStore = useUserStore();
 const onSubmit = async () => {
  const User = await  userStore.password(formData.account,formData.password)
+ 
  ElMessage.success({
    message:"登录成功",
  })

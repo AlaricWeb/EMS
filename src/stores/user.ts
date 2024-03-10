@@ -18,6 +18,8 @@ export const useUserStore = defineStore("user", {
           data:{account,password}
         })
          this.token = user.token;
+         console.log(user);
+         
          return user;
        } catch (error) {
          return false;

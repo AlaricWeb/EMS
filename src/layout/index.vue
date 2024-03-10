@@ -2,6 +2,7 @@
 import NavMenu from "@/layout/NavMenu.vue";
 import { RouterView } from "vue-router";
 import Navigator from "@/layout/Navigator.vue";
+
 </script>
 <template>
  <ElContainer class="layout-container">

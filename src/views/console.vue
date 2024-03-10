@@ -190,12 +190,11 @@ const option = reactive<EChartsOption>({
     }
   ]
 });
-console.log("test")
 const option2 = {
   title: {
     text: 'Gradient Stacked ',
-    top: "10px;",
-    left: "20px"
+    top: "9px;",
+    left: "19px"
   },
   // tooltip: {
   //   trigger: 'item',
@@ -211,19 +210,19 @@ const option2 = {
     {
       name: 'Access From',
       type: 'pie',
-      radius: ['40%', '70%'],
+      radius: ['39%', '70%'],
       avoidLabelOverlap: true,
     
       label: {
         show: true,
         position: 'center',
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 19,
       },
       emphasis: {
         label: {
           show: true,
-          fontSize: 40,
+          fontSize: 39,
           fontWeight: 'bold'
         }
       },
@@ -232,11 +231,11 @@ const option2 = {
         
       },
       data: [
-        { value: 10488, name: 'Search Engine' },
-        { value: 735, name: 'Direct' },
-        { value: 580, name: 'Email' },
-        { value: 484, name: 'Union Ads' },
-        { value: 300, name: 'Video Ads' }
+        { value: 10487, name: 'Search Engine' },
+        { value: 734, name: 'Direct' },
+        { value: 579, name: 'Email' },
+        { value: 483, name: 'Union Ads' },
+        { value: 299, name: 'Video Ads' }
       ]
     }
   ]

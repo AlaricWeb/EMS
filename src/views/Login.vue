@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Lock, Unlock, User } from '@element-plus/icons-vue';
-import { reactive, ref } from 'vue';
-import {useUserStore} from  "@/stores/user"
+import { onMounted, reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import { useRouter } from 'vue-router';
 import type {FormInstance}from "element-plus"
+import { useUserStore } from "@/stores/user";
+const userStore = useUserStore();
 const formRef  = ref<FormInstance| null>(null)
 const router = useRouter();
 type FormData = {
@@ -13,14 +14,15 @@ type FormData = {
   code:string
 }
 const formData = reactive<FormData>({
-  account: '',
-  password: '',
+  account: 'admin',
+  password: '123456',
   code:''
 })
-const userStore = useUserStore();
 const onSubmit = async () => {
- const User = await  userStore.password(formData.account,formData.password)
- 
+  const userinfo  = await userStore.login(formData.account, formData.password);
+  if (userinfo) {
+    router.replace('/')
+ }
  ElMessage.success({
    message:"登录成功",
  })
@@ -30,17 +32,17 @@ const onSubmit = async () => {
   <div class="container">
     <div class="login-content">
         <h2>设备报修系统</h2>
-            <ElForm  ref="formRef" :model="formData" label-position="top" size="large">
+            <ElForm   ref="formRef" :model="formData" label-position="top" size="large">
                 <ElFormItem prop="account" :rules="[
                     { required: true, message: '请输入账号', trigger: 'blur' },
                 ]">
-                    <ElInput :prefix-icon="User" clearable v-model="formData.account" placeholder="请输入用户名"></ElInput>
+                    <ElInput @keyup.enter.native="onSubmit" :prefix-icon="User" clearable v-model="formData.account" placeholder="请输入用户名"></ElInput>
                 </ElFormItem>
                 <ElFormItem prop="password" :rules="[
                   { required: true, message: '请输入密码', trigger: 'blur' },
                   { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' },
                 ]">
-                    <ElInput :prefix-icon="Lock" type="password" v-model="formData.password" :show-password="true" placeholder="请输入密码"></ElInput>
+                    <ElInput @keyup.enter.native="onSubmit" :prefix-icon="Lock" type="password" v-model="formData.password" :show-password="true" placeholder="请输入密码"></ElInput>
                 </ElFormItem>
                 <ElFormItem 
                 prop="code"
@@ -49,10 +51,10 @@ const onSubmit = async () => {
                    { min: 4, max: 4, message: '请输入正确的验证码', trigger: 'blur' },
                   ]"
                 >
-                    <ElInput :prefix-icon="Unlock" type="password" v-model="formData.code" :show-password="true" placeholder="验证码"></ElInput>
+                    <ElInput  @keyup.enter.native="onSubmit" :prefix-icon="Unlock" type="password" v-model="formData.code" :show-password="true" placeholder="验证码"></ElInput>
                 </ElFormItem>
                 <ElFormItem>
-                    <ElButton style="width: 100%;" type="primary" @click.stop="onSubmit">登录</ElButton>
+                    <ElButton  @keyup.enter.native="onSubmit" style="width: 100%;" type="primary" @click.stop="onSubmit">登录</ElButton>
                 </ElFormItem>
             </ElForm>
     </div>

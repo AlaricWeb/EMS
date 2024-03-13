@@ -201,10 +201,10 @@ const option2 = {
   // },
   legend: {
     orient: 'vertical',
-    type:"scroll",
+    type: "scroll",
     top: 'middle',
-    right:"right",
-    align:"left"
+    right: "right",
+    align: "left"
   },
   series: [
     {
@@ -212,7 +212,7 @@ const option2 = {
       type: 'pie',
       radius: ['39%', '70%'],
       avoidLabelOverlap: true,
-    
+
       label: {
         show: true,
         position: 'center',
@@ -228,7 +228,7 @@ const option2 = {
       },
       labelLine: {
         show: true,
-        
+
       },
       data: [
         { value: 10487, name: 'Search Engine' },
@@ -267,54 +267,54 @@ const tableData = [
 <template>
   <div class="container">
     <ElRow class="common-functions" :gutter="20">
-      <ElCol :span="16"  >
+      <ElCol :span="16">
         <div style="background-color: #ffffff;height: 100%;border-radius: 10px; box-shadow: 0 10px 5px 0 #eee;">
           <h1 style="height: 60px;line-height: 60px;padding: 0 1em;">common functions</h1>
-        <div style="display: flex;justify-content: space-around;text-align: center;">
-           <div>
-            <Icon style="font-size: 3em;color:#2b54ef" icon="mingcute:layout-9-fill" ></Icon>
-             <div>Email</div>
-           </div>
-           <div>
-            <Icon style="font-size: 3em;color:#2b54ef" icon="mingcute:layout-9-fill" ></Icon>
-             <div>Email</div>
-           </div>
-           <div>
-            <Icon style="font-size: 3em;color:#2b54ef" icon="mingcute:layout-9-fill" ></Icon>
-             <div>Email</div>
-           </div>
-           <div>
-            <Icon style="font-size: 3em;color:#2b54ef" icon="mingcute:layout-9-fill" ></Icon>
-             <div>Email</div>
-           </div>
-           <div>
-            <Icon style="font-size: 3em;color:#2b54ef" icon="mingcute:layout-9-fill" ></Icon>
-             <div>Email</div>
-           </div>
-           <div>
-            <Icon style="font-size: 3em;color:#2b54ef" icon="mingcute:layout-9-fill" ></Icon>
-             <div>Email</div>
-           </div>
-        </div>
+          <div style="display: flex;justify-content: space-around;text-align: center;">
+            <div>
+              <Icon style="font-size: 3em;color:#2b54ef" icon="mingcute:user-add-2-fill"></Icon>
+              <div>新增用户</div>
+            </div>
+            <div>
+              <Icon style="font-size: 3em;color:#2b54ef" icon="mingcute:layout-9-fill"></Icon>
+              <div>Email</div>
+            </div>
+            <div>
+              <Icon style="font-size: 3em;color:#2b54ef" icon="mingcute:layout-9-fill"></Icon>
+              <div>Email</div>
+            </div>
+            <div>
+              <Icon style="font-size: 3em;color:#2b54ef" icon="mingcute:layout-9-fill"></Icon>
+              <div>Email</div>
+            </div>
+            <div>
+              <Icon style="font-size: 3em;color:#2b54ef" icon="mingcute:layout-9-fill"></Icon>
+              <div>Email</div>
+            </div>
+            <div>
+              <Icon style="font-size: 3em;color:#2b54ef" icon="mingcute:layout-9-fill"></Icon>
+              <div>Email</div>
+            </div>
+          </div>
         </div>
       </ElCol>
       <ElCol :span="8">
         <h1 style="padding:0 1em;background-color: #ffffff;height: 60px;line-height: 60px;">用户登录数据</h1>
-          <el-table height="calc(20vh - 60px)" size="small"  :border="false"  :data="tableData"  style="width: 100%">
-                <el-table-column prop="date" label="Date" width="160" />
-                <el-table-column prop="address" label="Address" />
-          </el-table>
+        <el-table height="calc(20vh - 60px)" size="small" :border="false" :data="tableData" style="width: 100%">
+          <el-table-column prop="date" label="Date" width="160" />
+          <el-table-column prop="address" label="Address" />
+        </el-table>
       </ElCol>
     </ElRow>
     <ElRow class="attendance-statistics" :gutter="20">
-      <ElCol :span="16" >
+      <ElCol :span="16">
         <div style="background-color: #ffffff;height: 100%;box-shadow: 0 5px 20px 0 #eee;">
-          <EChart v-model="option" ></EChart>
+          <EChart v-model="option"></EChart>
         </div>
       </ElCol>
-      <ElCol :span="8" >
+      <ElCol :span="8">
         <div style="background-color: #ffffff;height: 100%;box-shadow: 0 5px 20px 0 #eee;">
-          <EChart v-model="option2" ></EChart>
+          <EChart v-model="option2"></EChart>
         </div>
       </ElCol>
     </ElRow>
@@ -323,27 +323,32 @@ const tableData = [
       <el-table-column prop="date" label="Date" width="160" />
       <el-table-column prop="name" label="Name" width="160" />
       <el-table-column prop="address" label="Address" />
-  </el-table>
+    </el-table>
   </div>
 </template>
 <style lang="scss" scoped>
 .container {
   padding-top: 1em;
+
   .common-functions {
     height: 20vh;
   }
+
   .attendance-statistics {
     height: 40vh;
   }
-  & > div {
+
+  &>div {
     margin-bottom: 1em;
   }
 }
-:deep(.el-card__header){
+
+:deep(.el-card__header) {
   border: none;
   height: 100%;
 }
-:deep(.el-card ){
+
+:deep(.el-card) {
   border: none;
   height: 100%;
 }

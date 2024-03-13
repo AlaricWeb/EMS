@@ -3,7 +3,7 @@ import { ref, nextTick, onMounted, reactive } from 'vue'
 import type { VxeTableInstance, VxeToolbarInstance } from 'vxe-table'
 import { VXETable } from 'vxe-table'
 import request from "@/utils/request";
-import Form from "./form.vue";
+import Form from "@/views/system/role/Form.vue"
 export interface Role {
   name: string,
   desc: string
@@ -80,7 +80,7 @@ onMounted(() => {
         queryMethod: fetchListings
       }" custom print export>
         <template #buttons>
-          <Form v-model="form"> <vxe-button status="primary" icon="vxe-icon-add">添加</vxe-button></Form>
+          <Form title="添加" v-model="form"> <vxe-button status="primary" icon="vxe-icon-add">添加</vxe-button></Form>
         </template>
       </vxe-toolbar>
     </div>

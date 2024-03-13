@@ -4,6 +4,7 @@ import { ElMessageBox } from 'element-plus'
 import type { Role } from "./index.vue"
 import request from "@/utils/request";
 const dialogVisible = ref<boolean>(false)
+defineProps<{ title: string }>();
 const model = defineModel<Role>({
     default: {
         id: 0,
@@ -34,7 +35,7 @@ onMounted(() => {
     <span @click="dialogVisible = true">
         <slot></slot>
     </span>
-    <el-dialog v-model="dialogVisible" draggable title="添加" width="600" :before-close="handleClose">
+    <el-dialog v-model="dialogVisible" draggable :title="title" width="600" :before-close="handleClose">
         <ElForm :model="model" label-width="80">
             <ElFormItem label="名称" prop="name">
                 <ElInput v-model="model.name" style="width: 300px;" placeholder="请输入角色名称"></ElInput>

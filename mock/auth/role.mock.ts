@@ -1,5 +1,6 @@
 import { definePostMock } from "../config";
 import Mock from 'mockjs'
+import { page } from "../utils";
 export const user = Mock.mock({
     "total|100-1000": 1,
     'list|100': [
@@ -19,13 +20,10 @@ export default definePostMock([
         method: "GET",
         delay: 1000,
         body(request) {
-            const { page, limit } = request.query;
-            const total = user.list.length;
-            const start = (page - 1) * limit;
-            const end = start + parseInt(limit);;
+            const { page: start, limit } = request.query;
             return {
                 total: user.list.length,
-                list: user.list.slice(start, end)
+                list: page(user.list, start, limit)
             }
         }
     },

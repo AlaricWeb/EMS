@@ -1,7 +1,8 @@
 import { definePostMock } from "../config";
 import Mock from "mockjs";
-import { page, where } from "../utils";
-import { menu } from "../database/auth";
+import { page, where, find } from "../utils";
+import { menu, role } from "../database/auth";
+
 export default definePostMock([
   {
     url: "/system/menu",
@@ -41,7 +42,13 @@ export default definePostMock([
     method: "POST",
     body(request: { body: any }) {
       request.body.id = Mock.Random.integer();
-      menu.push(request.body);
+      //@ts-ignore
+      const roleName = find(role.list, {
+        id: request.body.system_role_id,
+      });
+      console.log(roleName);
+
+      menu.unshift(request.body);
       return request.body;
     },
   },

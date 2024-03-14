@@ -1,116 +1,83 @@
 <script lang="ts" setup>
 import { ref, nextTick, onMounted, reactive } from "vue";
 import type { VxeTableInstance, VxeToolbarInstance } from "vxe-table";
-import { VXETable } from "vxe-table";
-import request from "@/utils/request";
+import { fetch, remove, type User } from "@/api/system/user";
 import Editor from "./Editor.vue";
-//#region interface 部分
-export interface User {
-  id: number;
-  account: string;
-  nickname: string;
-  sex: string;
-  avatar: string;
-  status: string;
-  createTime: string;
-  updateTime: string;
-}
-export interface Page {
-  page: number;
-  limit: number;
-}
-export interface PageConfig {
-  pager: Page;
-  total: number;
-  loading: boolean;
-  listring: Array<User>;
-}
-//#endregion
+import { useDialogForm } from "@/utils/tools";
+import type { PageConfig } from "@/typing/page";
+import RoleSelect from "@/components/RoleSelect.vue";
 //#region table 部分
 const tableRef = ref<VxeTableInstance<User>>();
 const toolbarRef = ref<VxeToolbarInstance>();
-const API_URL = "/system/user";
-const PageConfig = reactive<PageConfig>({
+const PageConfig = reactive<PageConfig<User>>({
   pager: {
     page: 1,
     limit: 15,
   },
   loading: false,
   total: 0,
-  listring: [],
+  listing: [],
 });
-nextTick(() => {
-  // 将表格和工具栏进行关联
-  const $table = tableRef.value;
-  const $toolbar = toolbarRef.value;
-  if ($table && $toolbar) {
-    $table.connect($toolbar);
-  }
-});
-const fetchListings = async () => {
-  PageConfig.loading = true;
-  const result = await request.get<any, { list: User[]; total: number }>(
-    API_URL,
-    { params: { ...PageConfig.pager } }
-  );
-  PageConfig.listring = result.list;
-  PageConfig.loading = false;
-  PageConfig.total = result.total;
-};
+const refresh = fetch(PageConfig);
 const removeListing = async (row: User) => {
-  const type = await VXETable.modal.confirm("您确定要删除该数据?");
-  if (type === "confirm") {
-    PageConfig.loading = true;
-    await request.delete(`${API_URL}${row.id}`);
-    PageConfig.loading = false;
-    PageConfig.total -= 1;
-    if (tableRef.value) {
-      tableRef.value.remove(row);
-    }
+  const result = await remove(row, PageConfig);
+  if (!result) return;
+  if (tableRef.value) {
+    tableRef.value.remove(row);
   }
 };
 //#endregion
 //#region  表单部分
-const formData = reactive<Partial<User>>({
-  id: 0,
-  account: "",
-  sex: "",
-  avatar: "",
-  status: "",
-  createTime: "",
-  updateTime: "",
-});
-const dialogVisible = ref<boolean>(false);
-const openForm = (data?: Partial<User>) => {
-  dialogVisible.value = true;
-  if (data) Object.assign(formData, data);
-};
+const {
+  openDialog: openForm,
+  visible,
+  data: formData,
+} = useDialogForm<Partial<User>>();
 //#endregion
 onMounted(() => {
-  fetchListings();
+  nextTick(() => {
+    // 将表格和工具栏进行关联
+    const $table = tableRef.value;
+    const $toolbar = toolbarRef.value;
+    if ($table && $toolbar) {
+      $table.connect($toolbar);
+    }
+  });
+  refresh();
 });
 </script>
 <template>
   <div class="container">
     <!-- #region 表格 -->
 
-    <div style="padding: 0 1em">
-      <vxe-toolbar
-        ref="toolbarRef"
-        :refresh="{
-          queryMethod: fetchListings,
-        }"
-        custom
-        print
-        export
-      >
-        <template #buttons>
-          <vxe-button @click="openForm()" status="primary" icon="vxe-icon-add"
-            >添加</vxe-button
-          >
-        </template>
-      </vxe-toolbar>
-    </div>
+    <vxe-toolbar
+      ref="toolbarRef"
+      class-name="toolbar"
+      perfect
+      :refresh="{
+        queryMethod: refresh,
+      }"
+      custom
+      print
+      export
+    >
+      <template #buttons>
+        <vxe-button @click="openForm()" status="primary" icon="vxe-icon-add"
+          >添加</vxe-button
+        >
+        <VxeInput
+          v-model="PageConfig.pager.keyword"
+          style="margin: 0 1em"
+          clearable
+          prefix-icon="vxe-icon-search"
+        >
+        </VxeInput>
+        <RoleSelect v-model="PageConfig.pager.system_role_id"></RoleSelect>
+        <VxeButton status="primary" icon="vxe-icon-search" @click="refresh"
+          >搜索</VxeButton
+        >
+      </template>
+    </vxe-toolbar>
     <div style="height: calc(100vh - 210px)">
       <vxe-table
         :loading="PageConfig.loading"
@@ -120,7 +87,7 @@ onMounted(() => {
         :border="true"
         ref="tableRef"
         :print-config="{}"
-        :data="PageConfig.listring"
+        :data="PageConfig.listing"
       >
         <vxe-column type="seq" width="60"></vxe-column>
         <vxe-column field="id" title="id" width="60"></vxe-column>
@@ -133,6 +100,7 @@ onMounted(() => {
         <vxe-column field="sex" width="80" title="性别"></vxe-column>
         <vxe-column field="role_name" title="角色"></vxe-column>
         <vxe-column field="account" title="账号"></vxe-column>
+        <vxe-column field="status" title="状态"></vxe-column>
         <vxe-column field="created_at" title="创建时间"></vxe-column>
         <vxe-column field="updated_at" title="更新时间"></vxe-column>
         <vxe-column title="操作" width="200" render-cell="action">
@@ -145,6 +113,22 @@ onMounted(() => {
             >
           </template>
         </vxe-column>
+        <template #loading>
+          <ElIcon class="is-loading">
+            <svg class="circular" viewBox="0 0 20 20">
+              <g
+                class="path2 loading-path"
+                stroke-width="0"
+                style="animation: none; stroke: none"
+              >
+                <circle r="3.375" class="dot1" rx="0" ry="0" />
+                <circle r="3.375" class="dot2" rx="0" ry="0" />
+                <circle r="3.375" class="dot4" rx="0" ry="0" />
+                <circle r="3.375" class="dot3" rx="0" ry="0" />
+              </g>
+            </svg>
+          </ElIcon>
+        </template>
       </vxe-table>
     </div>
     <vxe-pager
@@ -152,7 +136,7 @@ onMounted(() => {
       v-model:current-page="PageConfig.pager.page"
       v-model:page-size="PageConfig.pager.limit"
       :total="PageConfig.total"
-      @page-change="fetchListings"
+      @page-change="refresh"
       :layouts="[
         'PrevJump',
         'PrevPage',
@@ -167,13 +151,17 @@ onMounted(() => {
     </vxe-pager>
     <!-- #endregion -->
     <!-- #region 表单 -->
-    <Editor v-model="formData" v-model:visible="dialogVisible"></Editor>
+    <Editor v-model="formData" v-model:visible="visible"></Editor>
     <!-- #endregion -->
   </div>
 </template>
 <style lang="scss" scoped>
 .container {
   margin-top: 1em;
+  background-color: #ffffff;
+}
+.toolbar {
+  padding: 0.5em 1em;
   background-color: #ffffff;
 }
 </style>

@@ -1,5 +1,5 @@
 import Mock from "mockjs";
-import { column } from "../utils";
+import { column, find } from "../utils";
 export const menu = [
   {
     id: 1,
@@ -51,13 +51,31 @@ export const menu = [
   },
 ];
 
-const userData = {
+const roleData = {
   "id|+1": 1,
+  "name|1": "@word",
+  system_menu_ids: [1, 2, 3, 4],
+  desc: "@paragraph",
+  created_at: "@datetime",
+  updated_at: "@datetime",
+};
+export const role = Mock.mock({
+  "list|100": [roleData],
+});
+
+const userData = {
+  "id|+1": 0,
   nickname: "@cname",
-  avatar: "https://cdn.seovx.com/d/?mom=302",
-  "system_role_id|1-6": 1,
+  avatar: function () {
+    return `https://picsum.photos/id/${this.id}/400/300`;
+  },
+  "system_role_id|1-100": 1,
   account: "@name",
-  "role_name|1": ["超级管理员", "管理员", "员工"],
+  role_name: function (params) {
+    const result = find(role.list, { id: this.system_role_id });
+    //@ts-ignore
+    return result["name"];
+  },
   "sex|1": ["男", "女"],
   created_at: "@datetime",
   updated_at: "@datetime",
@@ -66,16 +84,3 @@ export const user = Mock.mock({
   "list|100": [userData],
 });
 const menuID = column(menu, "id");
-
-export const role = Mock.mock({
-  "list|100": [
-    {
-      "id|+1": 1,
-      "name|1": "@word",
-      system_menu_ids: menuID,
-      desc: "@paragraph",
-      created_at: "@datetime",
-      updated_at: "@datetime",
-    },
-  ],
-});

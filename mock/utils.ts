@@ -1,14 +1,15 @@
-export function where<T extends object>(node: T[], condition: T) {
-    return node.filter(item => {
-        Object.keys(item).every(key => {
+export function where<T extends object>(node: T[], condition: Partial<T>) {
+    return node.filter((item) => {
+        return Object.keys(condition).every((key) => {
             return item[key] === condition[key]
         })
     })
+
 }
 
-export function find<T extends object>(node: T[], condition: T): T | undefined {
-    return node.find(item => {
-        Object.keys(item).every(key => {
+export function find<T extends object>(node: T[], condition: Partial<T>): T | undefined {
+    return node.find((item) => {
+        return Object.keys(condition).every((key) => {
             return item[key] === condition[key]
         })
     })
@@ -25,8 +26,6 @@ export function page<T extends object>(node: T[], page: number = 1, limit: any =
     const start = (page - 1) * limit;
     let end = start + limit;
     if (end > node.length) end = node.length;
-    console.log(start, end);
-
     return node.slice(start, end);
 }
 

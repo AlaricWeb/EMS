@@ -22,7 +22,7 @@ const router = createRouter({
       children: [
         {
           path: '/console',
-          component: () => import('@/views/Console.vue')
+          component: () => import('@/views/console.vue')
         },
         ...autoView
       ]

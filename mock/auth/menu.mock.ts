@@ -2,7 +2,6 @@ import { definePostMock } from "../config";
 import Mock from "mockjs";
 import { page, where } from "../utils";
 import { menu } from "../database/auth";
-
 export default definePostMock([
   {
     url: "/system/menu",
@@ -12,6 +11,7 @@ export default definePostMock([
       let parent_id: number = request.query.parent_id || 0;
       parent_id =
         typeof parent_id === "string" ? parseInt(parent_id) : parent_id;
+
       const result = where(menu, { parent_id });
       if (parent_id) {
         return {

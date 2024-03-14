@@ -59,27 +59,19 @@ export const menu: Array<Menu> = [
     updated_at: Mock.Random.datetime(),
   },
 ];
-export function user() {
-  return [
+export const user = Mock.mock({
+  "total|1-1000": 1,
+  "list|10": [
     {
-      id: 1,
-      username: "admin",
-      password: "<PASSWORD>",
-      nickname: "管理员",
-      role_id: 1,
-      created_at: Mock.Random.datetime(),
-      updated_at: Mock.Random.datetime(),
+      "id|+1": 1,
+      nickname: "@cname",
+      avatar: "https://cdn.seovx.com/d/?mom=302",
+      "system_role_id|1-6": 1,
+      account: "@name",
+      "role_name|1": ["超级管理员", "管理员", "员工"],
+      "sex|1": ["男", "女"],
+      created_at: "@datetime",
+      updated_at: "@datetime",
     },
-  ];
-}
-export function role() {
-  return [
-    {
-      id: 1,
-      name: "超级管理员",
-      desc: "拥有最高权限",
-      created_at: Mock.Random.datetime(),
-      updated_at: Mock.Random.datetime(),
-    },
-  ];
-}
+  ],
+});

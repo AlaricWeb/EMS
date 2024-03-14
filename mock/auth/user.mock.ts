@@ -1,19 +1,6 @@
 import { definePostMock } from "../config";
+import { user } from "../database/auth";
 import Mock from "mockjs";
-export const user = Mock.mock({
-  "total|1-1000": 1,
-  "list|10": [
-    {
-      "id|+1": 1,
-      nickname: "@cname",
-      avatar: "https://cdn.seovx.com/d/?mom=302",
-      "system_role_id|1-6": 1,
-      account: "@name",
-      created_at: "@datetime",
-      updated_at: "@datetime",
-    },
-  ],
-});
 export default definePostMock([
   {
     url: "/system/user",

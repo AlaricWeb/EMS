@@ -2,7 +2,7 @@ import { definePostMock } from "../config";
 import Mock from "mockjs";
 import { page, where } from "../utils";
 import { menu } from "../database/auth";
-w;
+
 export default definePostMock([
   {
     url: "/system/menu",
@@ -39,10 +39,9 @@ export default definePostMock([
   {
     url: "/system/menu",
     method: "POST",
-    body(request) {
+    body(request: { body: any }) {
       request.body.id = Mock.Random.integer();
       menu.push(request.body);
-
       return request.body;
     },
   },

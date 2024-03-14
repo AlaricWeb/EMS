@@ -14,6 +14,7 @@ export const user = Mock.mock({
     },
   ],
 });
+
 export default definePostMock([
   {
     url: "/system/role",
@@ -23,7 +24,6 @@ export default definePostMock([
       const { page: start, limit } = request.query;
       return {
         total: user.list.length,
-        list: page(user.list, start, limit),
       };
     },
   },

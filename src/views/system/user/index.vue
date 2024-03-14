@@ -33,7 +33,7 @@ const API_URL = "/system/user";
 const PageConfig = reactive<PageConfig>({
   pager: {
     page: 1,
-    limit: 10,
+    limit: 15,
   },
   loading: false,
   total: 0,

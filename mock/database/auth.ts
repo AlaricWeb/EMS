@@ -1,15 +1,6 @@
 import Mock from "mockjs";
-interface Menu {
-  id: number;
-  name: string;
-  route_path: string;
-  parent_id: number;
-  icon: string;
-  has_children?: boolean;
-  created_at: string;
-  updated_at: string;
-}
-export const menu: Array<Menu> = [
+import { column } from "../utils";
+export const menu = [
   {
     id: 1,
     name: "控制台",
@@ -59,17 +50,30 @@ export const menu: Array<Menu> = [
     updated_at: Mock.Random.datetime(),
   },
 ];
+
+const userData = {
+  "id|+1": 1,
+  nickname: "@cname",
+  avatar: "https://cdn.seovx.com/d/?mom=302",
+  "system_role_id|1-6": 1,
+  account: "@name",
+  "role_name|1": ["超级管理员", "管理员", "员工"],
+  "sex|1": ["男", "女"],
+  created_at: "@datetime",
+  updated_at: "@datetime",
+};
 export const user = Mock.mock({
-  "total|1-1000": 1,
-  "list|10": [
+  "list|100": [userData],
+});
+const menuID = column(menu, "id");
+
+export const role = Mock.mock({
+  "list|100": [
     {
       "id|+1": 1,
-      nickname: "@cname",
-      avatar: "https://cdn.seovx.com/d/?mom=302",
-      "system_role_id|1-6": 1,
-      account: "@name",
-      "role_name|1": ["超级管理员", "管理员", "员工"],
-      "sex|1": ["男", "女"],
+      "name|1": "@word",
+      system_menu_ids: menuID,
+      desc: "@paragraph",
       created_at: "@datetime",
       updated_at: "@datetime",
     },

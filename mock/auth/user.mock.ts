@@ -1,13 +1,18 @@
 import { definePostMock } from "../config";
 import { user } from "../database/auth";
 import Mock from "mockjs";
+import { page } from "../utils";
 export default definePostMock([
   {
     url: "/system/user",
     method: "GET",
-    body: {
-      total: user.total,
-      list: user.list,
+    body(request) {
+      const { page: start = 1, limit = 10 } = request.query;
+      const result = page(user.list, start, limit);
+      return {
+        total: user.list.length,
+        list: result,
+      };
     },
   },
   {

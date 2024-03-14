@@ -1,20 +1,7 @@
 import { definePostMock } from "../config";
 import Mock from "mockjs";
 import { page } from "../utils";
-export const user = Mock.mock({
-  "total|100-1000": 1,
-  "list|100": [
-    {
-      "id|+1": 1,
-      name: "@name",
-      system_menu_ids: "@range(1, 10, 3)",
-      desc: "@paragraph",
-      created_at: "@datetime",
-      updated_at: "@datetime",
-    },
-  ],
-});
-
+import { role } from "../database/auth";
 export default definePostMock([
   {
     url: "/system/role",
@@ -22,8 +9,10 @@ export default definePostMock([
     delay: 1000,
     body(request) {
       const { page: start, limit } = request.query;
+      const result = page(role.list, start, limit);
       return {
-        total: user.list.length,
+        total: role.list.length,
+        list: result,
       };
     },
   },
@@ -32,7 +21,7 @@ export default definePostMock([
     method: "GET",
     body(request) {
       const id = request.params.id as number;
-      if (id && user.list[id - 1]) return user.list[id - 1];
+      if (id && role.list[id - 1]) return role.list[id - 1];
       return {
         error_code: 400,
         msg: "author not found",
@@ -44,7 +33,7 @@ export default definePostMock([
     method: "POST",
     body(request) {
       request.body.id = Mock.Random.integer();
-      user.list.push(request.body);
+      role.list.push(request.body);
       return request.body;
     },
   },
@@ -52,20 +41,20 @@ export default definePostMock([
     url: "/system/role/:id",
     method: "PUT",
     body(request) {
-      // user.list[]
+      // role.list[]
       const id = request.params.id as number;
-      user.list[id - 1] = Object.assign(user.list[id - 1], request.body);
-      return user.list[id - 1];
+      role.list[id - 1] = Object.assign(role.list[id - 1], request.body);
+      return role.list[id - 1];
     },
   },
   {
     url: "/system/role/:id",
     method: "DELETE",
     body(request) {
-      // user.list[]
+      // role.list[]
       const id = request.params.id as number;
-      user.list.splice(id - 1, 1);
-      return user.list[id - 1];
+      role.list.splice(id - 1, 1);
+      return role.list[id - 1];
     },
   },
 ]);

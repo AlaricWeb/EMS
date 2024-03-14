@@ -50,7 +50,6 @@ export const menu = [
     updated_at: Mock.Random.datetime(),
   },
 ];
-
 const roleData = {
   "id|+1": 1,
   "name|1": "@word",
@@ -83,4 +82,3 @@ const userData = {
 export const user = Mock.mock({
   "list|100": [userData],
 });
-const menuID = column(menu, "id");

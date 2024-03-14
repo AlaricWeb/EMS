@@ -10,7 +10,6 @@ export default definePostMock([
     body(request) {
       const { page: start = 1, limit = 10 } = request.query;
       const result = page(user.list, start, limit);
-
       return {
         total: user.list.length,
         list: result,
@@ -42,7 +41,6 @@ export default definePostMock([
       request.body.created_at = Mock.Random.datetime();
       request.body.updated_at = Mock.Random.datetime();
       console.log("添加");
-
       user.list.unshift(request.body);
       return request.body;
     },
@@ -53,17 +51,15 @@ export default definePostMock([
     body(request) {
       // user.list[]
       console.log("更新");
-
       const id = request.params.id as number;
-      const uesr = find(user.list, { id });
-      return user;
+      const result = find(user.list, { id });
+      return result;
     },
   },
   {
     url: "/system/user/:id",
     method: "DELETE",
     body(request) {
-      // user.list[]
       const id = request.params.id as number;
       user.list.splice(id - 1, 1);
       return user.list[id - 1];

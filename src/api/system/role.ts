@@ -6,6 +6,7 @@ export interface Role {
   name: string;
   desc: string;
   id: number;
+  system_menu_ids: Array<number>;
   createTime: string;
   updateTime: string;
 }
@@ -32,4 +33,18 @@ export async function remove(row: Role, params: PageConfig<Role>) {
   await request.delete(`${API}/${row.id}`);
   params.loading = false;
   return true;
+}
+
+/**
+ *  提交数据到后台
+ * @param data  提交数据
+ * @returns Promise
+ */
+export function push<T>(data: Partial<Role>) {
+  if (data.id) {
+    const result = request.put(`${API}/${data.id}`, data);
+    return result;
+  }
+  const result = request.post(API, data);
+  return result;
 }

@@ -71,7 +71,6 @@ const handleSelect = (index, path, item) => {
     (item) => item.route_path == index
   );
   userStore.navigator[navIndex]["active"] = true;
-  console.log(userStore.navigator);
 };
 </script>
 <template>

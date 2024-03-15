@@ -3,17 +3,13 @@ import { ref, nextTick, onMounted, reactive } from "vue";
 import type { VxeTableInstance, VxeToolbarInstance } from "vxe-table";
 import { fetch, remove, type Role } from "@/api/system/role";
 import Editor from "./Editor.vue";
-
 import { useDialogForm } from "@/utils/tools";
 import type { PageConfig } from "@/typing/page";
 //#region table 部分
 const tableRef = ref<VxeTableInstance<Role>>();
 const toolbarRef = ref<VxeToolbarInstance>();
 const PageConfig = reactive<PageConfig<Role>>({
-  pager: {
-    page: 1,
-    limit: 15,
-  },
+  pager: { page: 1, limit: 15 },
   loading: false,
   total: 0,
   listing: [],
@@ -28,12 +24,7 @@ const removeListing = async (row: Role) => {
 };
 //#endregion
 //#region  表单部分
-
-const {
-  openDialog: openForm,
-  visible,
-  data: formData,
-} = useDialogForm<Partial<Role>>();
+const { openDialog: openForm, visible, data: formData } = useDialogForm<Partial<Role>>();
 //#endregion
 onMounted(() => {
   nextTick(() => {
@@ -50,6 +41,7 @@ onMounted(() => {
 <template>
   <div class="container">
     <!-- #region 表格 -->
+
     <vxe-toolbar
       ref="toolbarRef"
       class-name="toolbar"
@@ -59,36 +51,15 @@ onMounted(() => {
       }"
       custom
       print
-      export
-    >
+      export>
       <template #buttons>
-        <vxe-button @click="openForm()" status="primary" icon="vxe-icon-add"
-          >添加</vxe-button
-        >
-        <VxeInput
-          v-model="PageConfig.pager.keyword"
-          style="margin: 0 1em"
-          clearable
-          prefix-icon="vxe-icon-search"
-        >
-        </VxeInput>
-        <RoleSelect v-model="PageConfig.pager.system_role_id"></RoleSelect>
-        <VxeButton status="primary" icon="vxe-icon-search" @click="refresh"
-          >搜索</VxeButton
-        >
+        <vxe-button @click="openForm()" status="primary" icon="vxe-icon-add">添加</vxe-button>
+        <VxeInput v-model="PageConfig.pager.keyword" style="margin-left: 1em" clearable prefix-icon="vxe-icon-search"> </VxeInput>
+        <VxeButton status="primary" icon="vxe-icon-search" @click="refresh">搜索</VxeButton>
       </template>
     </vxe-toolbar>
     <div style="height: calc(100vh - 210px)">
-      <vxe-table
-        :loading="PageConfig.loading"
-        align="center"
-        height="100%"
-        show-overflow
-        :border="true"
-        ref="tableRef"
-        :print-config="{}"
-        :data="PageConfig.listing"
-      >
+      <vxe-table :loading="PageConfig.loading" align="center" height="100%" show-overflow :border="true" ref="tableRef" :print-config="{}" :data="PageConfig.listing">
         <vxe-column type="seq" width="60"></vxe-column>
         <vxe-column field="id" title="id" width="60"></vxe-column>
         <vxe-column field="name" title="名称"></vxe-column>
@@ -97,22 +68,14 @@ onMounted(() => {
         <vxe-column field="updated_at" title="更新时间"></vxe-column>
         <vxe-column title="操作" width="200" render-cell="action">
           <template #default="{ row }">
-            <vxe-button status="primary" @click="openForm(row)"
-              >编辑</vxe-button
-            >
-            <vxe-button status="danger" @click="removeListing(row)"
-              >删除</vxe-button
-            >
+            <vxe-button status="primary" @click="openForm(row)">编辑</vxe-button>
+            <vxe-button status="danger" @click="removeListing(row)">删除</vxe-button>
           </template>
         </vxe-column>
         <template #loading>
           <ElIcon class="is-loading">
             <svg class="circular" viewBox="0 0 20 20">
-              <g
-                class="path2 loading-path"
-                stroke-width="0"
-                style="animation: none; stroke: none"
-              >
+              <g class="path2 loading-path" stroke-width="0" style="animation: none; stroke: none">
                 <circle r="3.375" class="dot1" rx="0" ry="0" />
                 <circle r="3.375" class="dot2" rx="0" ry="0" />
                 <circle r="3.375" class="dot4" rx="0" ry="0" />
@@ -129,21 +92,11 @@ onMounted(() => {
       v-model:page-size="PageConfig.pager.limit"
       :total="PageConfig.total"
       @page-change="refresh"
-      :layouts="[
-        'PrevJump',
-        'PrevPage',
-        'Number',
-        'NextPage',
-        'NextJump',
-        'Sizes',
-        'FullJump',
-        'Total',
-      ]"
-    >
+      :layouts="['PrevJump', 'PrevPage', 'Number', 'NextPage', 'NextJump', 'Sizes', 'FullJump', 'Total']">
     </vxe-pager>
     <!-- #endregion -->
     <!-- #region 表单 -->
-    <Editor v-model="formData" v-model:visible="visible"></Editor>
+    <Editor @complete="refresh()" v-model="formData" v-model:visible="visible"></Editor>
     <!-- #endregion -->
   </div>
 </template>

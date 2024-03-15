@@ -3,7 +3,6 @@ export interface Page {
   limit: number;
   [props: string]: any;
 }
-
 export interface PageConfig<T> {
   pager: Partial<T & Page>;
   total: number;

@@ -6,15 +6,13 @@ import RoleSelect from "@/components/RoleSelect.vue";
 const formRef = ref<FormInstance>();
 const dailogVisible = defineModel<boolean>("visible", { default: false });
 const formData = defineModel<Partial<T>>({ required: true });
-
+const emit = defineEmits(["complete"]);
 const onSubmit = async () => {
   const validate = await formRef.value?.validate();
   if (!validate) return false;
-  if (formData.value.id) {
-  }
-  await push(formData.value);
+  const result = await push(formData.value);
   dailogVisible.value = false;
-
+  emit("complete", result);
 };
 </script>
 <template>

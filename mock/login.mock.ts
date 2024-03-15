@@ -551,6 +551,7 @@ const menu = [
     icon: "mingcute:feeder-fill",
   },
 ];
+
 export default definePostMock([
   {
     url: "/login/userinfo",
@@ -566,6 +567,7 @@ export default definePostMock([
     response(req, res) {
       const { query = {}, body = { account: "", password: "" } } = req;
       res.setHeader("Content-Type", "application/json");
+      console.log(body);
       if (body.account == "admin" && body.password == "123456") {
         res.statusCode = 200;
         res.end(

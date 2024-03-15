@@ -151,7 +151,11 @@ onMounted(() => {
     </vxe-pager>
     <!-- #endregion -->
     <!-- #region 表单 -->
-    <Editor v-model="formData" v-model:visible="visible"></Editor>
+    <Editor
+      @complete="refresh()"
+      v-model="formData"
+      v-model:visible="visible"
+    ></Editor>
     <!-- #endregion -->
   </div>
 </template>

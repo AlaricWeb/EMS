@@ -3,31 +3,38 @@ import { Search, Fold } from "@element-plus/icons-vue";
 import { Icon } from "@iconify/vue";
 import { ref } from "vue";
 import { useUserStore } from "@/stores/user";
+import { useSettingStore } from "@/stores/setting";
 import { storeToRefs } from "pinia";
+const settingStore = useSettingStore();
 const userStore = useUserStore();
 const { userinfo } = storeToRefs(userStore);
 const keyword = ref<string>();
-const TabsRef = ref<HTMLDivElement | null>(null)
+const TabsRef = ref<HTMLDivElement | null>(null);
 const scrollLeft = () => {
   if (TabsRef.value != null) {
-    TabsRef.value.scrollLeft -= 80
+    TabsRef.value.scrollLeft -= 80;
   }
-}
+};
 const scrollRight = () => {
   if (TabsRef.value != null) {
-    TabsRef.value.scrollLeft += 80
+    TabsRef.value.scrollLeft += 80;
   }
-}
+};
 const handlerClick = (item) => {
-  item.badge = Math.random().toFixed(1)
-}
+  item.badge = Math.random().toFixed(1);
+};
 </script>
 <template>
   <div class="nav-header">
     <div class="left-content">
       <!-- <Fold style="width: 1em; height: 1em; margin-right: 8px" /> -->
       <Icon icon="mingcute:fold-horizontal-line"></Icon>
-      <ElInput v-model="keyword" placeholder="请输入" style="width: 200px" :prefix-icon="Search"></ElInput>
+      <ElInput
+        v-model="keyword"
+        placeholder="请输入"
+        style="width: 200px"
+        :prefix-icon="Search"
+      ></ElInput>
       <Icon icon="mingcute:walk-fill"></Icon>
     </div>
     <div class="right-content">
@@ -39,20 +46,30 @@ const handlerClick = (item) => {
   </div>
   <div class="nav-tab">
     <Icon class="arrow icon-arrow" icon="mingcute:home-2-line"></Icon>
-    <Icon class="arrow icon-arrow" @click.stop="scrollLeft" icon="mingcute:arrows-left-line"></Icon>
+    <Icon
+      class="arrow icon-arrow"
+      @click.stop="scrollLeft"
+      icon="mingcute:arrows-left-line"
+    ></Icon>
     <div class="content" ref="TabsRef">
-      <div v-for="item in userStore.navigator" @click.stop="handlerClick(item)">
+      <template v-for="item in userStore.navigator">
+        <!-- <ElBadge v-if="item.active" :value="item.badge" :max="99">{{
+          item.name
+        }}</ElBadge> -->
         <template v-if="item.active">
-          <template v-if="item.badge">
-            <ElBadge :value="item.badge" :max="99">{{ item.name }}</ElBadge>
-          </template>
-          <template v-else>
-            {{ item.name }}
-          </template>
+          <span
+            class="tab-item"
+            :class="{ active: settingStore.activeURL == item.route_path }"
+            >{{ item.name }}</span
+          >
         </template>
-      </div>
+      </template>
     </div>
-    <Icon class="icon-arrow" @click.stop="scrollRight" icon="mingcute:arrows-right-line"></Icon>
+    <Icon
+      class="icon-arrow"
+      @click.stop="scrollRight"
+      icon="mingcute:arrows-right-line"
+    ></Icon>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -79,7 +96,6 @@ const handlerClick = (item) => {
     flex-shrink: 0;
     display: flex;
     align-items: center;
-
   }
 }
 
@@ -93,17 +109,22 @@ const handlerClick = (item) => {
     display: flex;
     align-items: center;
     overflow: hidden;
-
-    div {
-      white-space: nowrap;
-      width: 80px;
-      box-sizing: border-box;
-      text-align: center;
-      flex-shrink: 0;
-      text-overflow: ellipsis;
-      margin-right: 1em;
-      cursor: pointer;
+    .tab-item {
+      margin: 0 1em;
     }
+    .active {
+      color: rgb(10, 156, 68);
+    }
+    // div {
+    //   white-space: nowrap;
+    //   width: 80px;
+    //   box-sizing: border-box;
+    //   text-align: center;
+    //   flex-shrink: 0;
+    //   text-overflow: ellipsis;
+    //   margin-right: 1em;
+    //   cursor: pointer;
+    // }
   }
 
   .icon-arrow {

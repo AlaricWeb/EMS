@@ -5,7 +5,7 @@ import { onMounted, reactive } from "vue";
 const model = defineModel<any>();
 withDefaults(
   defineProps<{
-    multiple: boolean;
+    multiple?: boolean;
   }>(),
   { multiple: false }
 );

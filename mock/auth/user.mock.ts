@@ -21,7 +21,8 @@ export default definePostMock([
     method: "GET",
     body(request) {
       const id = request.params.id as number;
-      if (id && user.list[id - 1]) return user.list[id - 1];
+      const index = user.list.findIndex((item) => item.id == id);
+      if (index) return user.list[index];
       return {
         error_code: 400,
         msg: "author not found",
@@ -40,7 +41,6 @@ export default definePostMock([
       request.body.avatar = "https://picsum.photos/id/1/400/300";
       request.body.created_at = Mock.Random.datetime();
       request.body.updated_at = Mock.Random.datetime();
-      console.log("添加");
       user.list.unshift(request.body);
       return request.body;
     },
@@ -49,11 +49,10 @@ export default definePostMock([
     url: "/system/user/:id",
     method: "PUT",
     body(request) {
-      // user.list[]
-      console.log("更新");
       const id = request.params.id as number;
-      const result = find(user.list, { id });
-      return result;
+      const index = user.list.findIndex((item) => item.id == id);
+      Object.assign(user.list[index], request.body);
+      return user.list[index];
     },
   },
   {
@@ -61,8 +60,16 @@ export default definePostMock([
     method: "DELETE",
     body(request) {
       const id = request.params.id as number;
-      user.list.splice(id - 1, 1);
-      return user.list[id - 1];
+      const index = user.list.findIndex((item) => item.id == id);
+      const deleteRueslt = user.list.splice(index, 1);
+      if (deleteRueslt) {
+        return {
+          error_code: 400,
+          msg: "author not found",
+        };
+      }
+      const result = user.list[index];
+      return result;
     },
   },
 ]);

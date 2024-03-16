@@ -1,6 +1,5 @@
 import request from "@/utils/request";
 import { reactive, ref } from "vue";
-import { clear } from "@/utils/tools";
 const API_URL = "/system/user";
 const config = reactive<PageConfig<User>>({
   pager: {
@@ -11,8 +10,6 @@ const config = reactive<PageConfig<User>>({
   listing: [],
   loading: false,
 });
-const formData = reactive<Partial<User>>({});
-const formRef = ref<any>(null);
 export function fetchList() {
   config.loading = true;
   const refresh = () => {
@@ -34,10 +31,16 @@ export function fetchList() {
     refresh,
   };
 }
-export function modify() {
-  clear(formData);
-  return {
-    formRef,
-    FormData,
-  };
+
+export function created(data: User) {
+  if (data.id) {
+    return request.put(`${API_URL}/${data.id}`, data);
+  }
+  return request.post(API_URL, data);
+}
+
+export async function remove(row: User) {
+  if (!row.id) return false;
+  const result = await request.delete(`${API_URL}/${row.id}`);
+  return result;
 }

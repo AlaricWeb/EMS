@@ -8,6 +8,10 @@ const props = defineProps<{
 const tableRef = ref<VxeTableInstance<T>>();
 const toolbarRef = ref<VxeToolbarInstance>();
 const model = defineModel<PageConfig<T>>({ required: true });
+const remove = (row: T) => {
+  if (!tableRef.value) return;
+  tableRef.value.remove(row);
+};
 //#endregion
 onMounted(() => {
   nextTick(() => {
@@ -20,6 +24,9 @@ onMounted(() => {
     props.refresh();
   });
 });
+defineExpose({
+  remove,
+});
 </script>
 <template>
   <div class="container">
@@ -29,17 +36,19 @@ onMounted(() => {
         <slot name="button"></slot>
       </template>
     </vxe-toolbar>
-    <div style="height: calc(100vh - 210px)">
+    <div style="height: calc(100vh - 240px)">
       <vxe-table
         :loading="model.loading"
         align="center"
         height="100%"
         show-overflow
+        show-header-overflow
         :border="true"
         ref="tableRef"
         :print-config="{}"
         :data="model.listing">
-        <slot></slot>
+        <vxe-column type="seq" width="60"></vxe-column>
+        <vxe-column field="id" title="id" width="60"></vxe-column> <slot></slot>
         <template #loading>
           <ElIcon class="is-loading">
             <svg class="circular" viewBox="0 0 20 20">
@@ -66,12 +75,8 @@ onMounted(() => {
   </div>
 </template>
 <style lang="scss" scoped>
-.container {
-  margin-top: 1em;
-  background-color: #ffffff;
-}
 .toolbar {
-  padding: 0.5em 1em;
   background-color: #ffffff;
+  border: none;
 }
 </style>

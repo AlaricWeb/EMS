@@ -5,6 +5,7 @@ export const useSettingStore = defineStore("setting", {
     return {
       tabs: [],
       activeURL: "/console",
+      collapse: false,
       theme: {
         default: "drak",
         color: {},

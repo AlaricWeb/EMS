@@ -27,15 +27,12 @@ const handlerClick = (item) => {
 <template>
   <div class="nav-header">
     <div class="left-content">
-      <!-- <Fold style="width: 1em; height: 1em; margin-right: 8px" /> -->
-      <Icon icon="mingcute:fold-horizontal-line"></Icon>
-      <ElInput
-        v-model="keyword"
-        placeholder="请输入"
-        style="width: 200px"
-        :prefix-icon="Search"
-      ></ElInput>
-      <Icon icon="mingcute:walk-fill"></Icon>
+      <Fold
+        @click.stop="settingStore.collapse = !settingStore.collapse"
+        style="width: 1em; height: 1em; margin-right: 8px" />
+      <!-- <Icon icon="mingcute:fold-horizontal-line"></Icon> -->
+      <ElInput v-model="keyword" placeholder="请输入" style="width: 200px" :prefix-icon="Search"></ElInput>
+      <Icon icon="mingcute:refresh-1-fill"></Icon>
     </div>
     <div class="right-content">
       <Icon icon="mingcute:notification-fill"></Icon>
@@ -46,30 +43,18 @@ const handlerClick = (item) => {
   </div>
   <div class="nav-tab">
     <Icon class="arrow icon-arrow" icon="mingcute:home-2-line"></Icon>
-    <Icon
-      class="arrow icon-arrow"
-      @click.stop="scrollLeft"
-      icon="mingcute:arrows-left-line"
-    ></Icon>
+    <Icon class="arrow icon-arrow" @click.stop="scrollLeft" icon="mingcute:arrows-left-line"></Icon>
     <div class="content" ref="TabsRef">
       <template v-for="item in userStore.navigator">
         <!-- <ElBadge v-if="item.active" :value="item.badge" :max="99">{{
           item.name
         }}</ElBadge> -->
         <template v-if="item.active">
-          <span
-            class="tab-item"
-            :class="{ active: settingStore.activeURL == item.route_path }"
-            >{{ item.name }}</span
-          >
+          <span class="tab-item" :class="{ active: settingStore.activeURL == item.route_path }">{{ item.name }}</span>
         </template>
       </template>
     </div>
-    <Icon
-      class="icon-arrow"
-      @click.stop="scrollRight"
-      icon="mingcute:arrows-right-line"
-    ></Icon>
+    <Icon class="icon-arrow" @click.stop="scrollRight" icon="mingcute:arrows-right-line"></Icon>
   </div>
 </template>
 <style lang="scss" scoped>

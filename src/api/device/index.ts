@@ -12,7 +12,7 @@ const config = reactive<PageConfig<User>>({
   loading: false,
 });
 const formData = reactive<Partial<User>>({});
-const formref = ref<any>(null);
+const formRef = ref<any>(null);
 export function fetchList() {
   config.loading = true;
   const refresh = () => {
@@ -37,7 +37,7 @@ export function fetchList() {
 export function modify() {
   clear(formData);
   return {
-    formref,
+    formRef,
     FormData,
   };
 }

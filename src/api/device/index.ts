@@ -1,9 +1,7 @@
 import request from "@/utils/request";
 import { reactive, ref } from "vue";
 import { clear } from "@/utils/tools";
-import FormDialog from "@/components/FormDialog.vue";
 const API_URL = "/system/user";
-
 const config = reactive<PageConfig<User>>({
   pager: {
     page: 1,
@@ -14,7 +12,7 @@ const config = reactive<PageConfig<User>>({
   loading: false,
 });
 const formData = reactive<Partial<User>>({});
-const formref = ref<InstanceType<typeof FormDialog>>();
+const formref = ref<any>(null);
 export function fetchList() {
   config.loading = true;
   const refresh = () => {

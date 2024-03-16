@@ -4,9 +4,6 @@ import { fetchList, modify } from "@/api/device";
 import FormDialog from "@/components/FormDialog.vue";
 const { config, refresh } = fetchList();
 const { FormData, formref } = modify();
-const openForm = () => {
-  formref.open = true;
-};
 </script>
 <template>
   <AxTable v-model="config" :refresh="refresh">

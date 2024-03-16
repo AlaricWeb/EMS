@@ -590,4 +590,3 @@ export default definePostMock([
     },
   },
 ]);
-console.log("hello owlrd");

@@ -5,9 +5,7 @@ const model = defineModel<T>("modelValue", { required: true, default: {} });
 const visible = defineModel<boolean>("visible", { default: false });
 const open = () => (visible.value = true);
 const formRef = ref<FormInstance>();
-defineExpose<{
-  open: () => void;
-}>({
+defineExpose({
   open,
 });
 const emits = defineEmits(["confirm"]);

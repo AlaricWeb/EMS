@@ -1,29 +1,11 @@
-import type { PageConfig } from "@/typing/page";
 import request from "@/utils/request";
 
 import { VXETable } from "vxe-table";
-export interface User {
-  id: number;
-  account: string;
-  nickname: string;
-  system_role_id: number;
-  password: string;
-  confirm_password: string;
-  sex: string;
-  avatar: string;
-  status: string;
-  createTime: string;
-  updateTime: string;
-}
 const API = "/system/user";
 export function fetch(params: PageConfig<User>) {
   const refresh = async () => {
     params.loading = true;
-    const result = await request.get<any, { total: number; list: User[] }>(
-      API,
-      { params: params.pager }
-    );
-
+    const result = await request.get<any, { total: number; list: User[] }>(API, { params: params.pager });
     params.loading = false;
     params.total = result.total;
     params.listing = result.list;

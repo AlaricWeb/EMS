@@ -1,24 +1,11 @@
-import type { PageConfig } from "@/typing/page";
 import request from "@/utils/request";
 import { VXETable } from "vxe-table";
 
-export interface Role {
-  name: string;
-  desc: string;
-  id: number;
-  system_menu_ids: Array<number>;
-  createTime: string;
-  updateTime: string;
-}
-
-const API = "/system/role";
+export const API = "/system/role";
 export function fetch(params: PageConfig<Role>) {
   const refresh = async () => {
     params.loading = true;
-    const result = await request.get<any, { total: number; list: Role[] }>(
-      API,
-      { params: params.pager }
-    );
+    const result = await request.get<any, { total: number; list: Role[] }>(API, { params: params.pager });
 
     params.loading = false;
     params.total = result.total;

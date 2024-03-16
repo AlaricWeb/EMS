@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import request from "@/utils/request";
 import type { MenuItem } from "@/layout/NavMenu.vue";
-import type { User } from "@/api/system/user";
+import { convertToTree } from "@/utils/tools";
 
 interface Userinfo {
   token: string;
@@ -20,10 +20,7 @@ export const useUserStore = defineStore("user", {
   actions: {
     async login(account: string, password: string) {
       try {
-        const data = await request.post<
-          any,
-          { token?: string; auth?: MenuItem[] }
-        >("/login/password", {
+        const data = await request.post<any, { token?: string; auth?: MenuItem[] }>("/login/password", {
           account,
           password,
         });
@@ -57,20 +54,25 @@ export const useUserStore = defineStore("user", {
     isLogin: (state: Userinfo) => {
       return state.token !== "";
     },
+    tree(state) {
+      //@ts-ignore
+      const result = convertToTree(state.auth, "id", "parent_id");
+      return result;
+    },
     navigator(state) {
-      const menu = (node: MenuItem[]) => {
-        const list: MenuItem[] = [];
-        node.map((item) => {
-          if (item.children && item.children.length > 0) {
-            const result = menu(item.children);
-            list.push(...result);
-          } else {
-            list.push(item);
-          }
-        });
-        return list;
-      };
-      return menu(state.auth);
+      // const menu = (node: MenuItem[]) => {
+      //   const list: MenuItem[] = [];
+      //   node.map((item) => {
+      //     if (item.children && item.children.length > 0) {
+      //       const result = menu(item.children);
+      //       list.push(...result);
+      //     } else {
+      //       list.push(item);
+      //     }
+      //   });
+      //   return list;
+      // };
+      return state.auth;
     },
   },
   persist: true,

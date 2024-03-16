@@ -1,18 +1,15 @@
 export function where<T extends object>(node: T[], condition: Partial<T>) {
   return node.filter((item) => {
     return Object.keys(condition).every((key) => {
-      return item[key] === condition[key];
+      return item[key] == condition[key];
     });
   });
 }
 
-export function find<T extends object>(
-  node: T[],
-  condition: Partial<T>
-): T | undefined {
+export function find<T extends object>(node: T[], condition: Partial<T>): T | undefined {
   return node.find((item) => {
     return Object.keys(condition).every((key) => {
-      return item[key] === condition[key];
+      return item[key] == condition[key];
     });
   });
 }
@@ -23,11 +20,7 @@ export function find<T extends object>(
  * @param limit - The number of elements in the slice. Defaults to 10.
  * @returns The sliced array.
  */
-export function page<T extends object>(
-  node: T[],
-  page: number = 1,
-  limit: any = "10"
-): T[] {
+export function page<T extends object>(node: T[], page: number = 1, limit: any = "10"): T[] {
   limit = parseInt(limit);
   const start = (page - 1) * limit;
   let end = start + limit;

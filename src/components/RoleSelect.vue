@@ -37,22 +37,12 @@ onMounted(() => refresh());
     style="width: 220px; margin-right: 1em"
     reserve-keyword
     placeholder="请选择角色"
-    :remote-method="search"
-  >
-    <ElOption
-      v-for="item in config.listing"
-      :key="item.id"
-      :label="item.name"
-      :value="item.id"
-    ></ElOption>
+    :remote-method="search">
+    <ElOption v-for="item in config.listing" :key="item.id" :label="item.name" :value="item.id"></ElOption>
     <template #loading>
       <ElIcon class="is-loading">
         <svg class="circular" viewBox="0 0 20 20">
-          <g
-            class="path2 loading-path"
-            stroke-width="0"
-            style="animation: none; stroke: none"
-          >
+          <g class="path2 loading-path" stroke-width="0" style="animation: none; stroke: none">
             <circle r="3.375" class="dot1" rx="0" ry="0" />
             <circle r="3.375" class="dot2" rx="0" ry="0" />
             <circle r="3.375" class="dot4" rx="0" ry="0" />
@@ -68,8 +58,7 @@ onMounted(() => refresh());
         :page-count="5"
         v-model:page-size="config.pager.limit"
         v-model:current-page="config.pager.page"
-        @change="refresh"
-      />
+        @change="refresh" />
     </template>
   </ElSelect>
 </template>
@@ -148,3 +137,4 @@ onMounted(() => refresh());
   }
 }
 </style>
+@/typings/page

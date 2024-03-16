@@ -1,20 +1,25 @@
 <script lang="ts" setup>
 import { ref, nextTick, onMounted, reactive } from "vue";
 import type { VxeTableInstance, VxeToolbarInstance } from "vxe-table";
-import { fetch, remove } from "@/api/system/role";
+import { fetch, remove } from "@/api/system/user";
 import Editor from "./Editor.vue";
 import { useDialogForm } from "@/utils/tools";
+
+import RoleSelect from "@/components/RoleSelect.vue";
 //#region table 部分
-const tableRef = ref<VxeTableInstance<Role>>();
+const tableRef = ref<VxeTableInstance<User>>();
 const toolbarRef = ref<VxeToolbarInstance>();
-const PageConfig = reactive<PageConfig<Role>>({
-  pager: { page: 1, limit: 15 },
+const PageConfig = reactive<PageConfig<User>>({
+  pager: {
+    page: 1,
+    limit: 15,
+  },
   loading: false,
   total: 0,
   listing: [],
 });
 const refresh = fetch(PageConfig);
-const removeListing = async (row: Role) => {
+const removeListing = async (row: User) => {
   const result = await remove(row, PageConfig);
   if (!result) return;
   if (tableRef.value) {
@@ -23,7 +28,7 @@ const removeListing = async (row: Role) => {
 };
 //#endregion
 //#region  表单部分
-const { openDialog: openForm, visible, data: formData } = useDialogForm<Partial<Role>>();
+const { openDialog: openForm, visible, data: formData } = useDialogForm<Partial<User>>();
 //#endregion
 onMounted(() => {
   nextTick(() => {
@@ -53,8 +58,9 @@ onMounted(() => {
       export>
       <template #buttons>
         <vxe-button @click="openForm()" status="primary" icon="vxe-icon-add">添加</vxe-button>
-        <VxeInput v-model="PageConfig.pager.keyword" style="margin-left: 1em" clearable prefix-icon="vxe-icon-search">
+        <VxeInput v-model="PageConfig.pager.keyword" style="margin: 0 1em" clearable prefix-icon="vxe-icon-search">
         </VxeInput>
+        <RoleSelect v-model="PageConfig.pager.system_role_id"></RoleSelect>
         <VxeButton status="primary" icon="vxe-icon-search" @click="refresh">搜索</VxeButton>
       </template>
     </vxe-toolbar>
@@ -70,8 +76,16 @@ onMounted(() => {
         :data="PageConfig.listing">
         <vxe-column type="seq" width="60"></vxe-column>
         <vxe-column field="id" title="id" width="60"></vxe-column>
-        <vxe-column field="name" title="名称"></vxe-column>
-        <vxe-column field="desc" title="描述"></vxe-column>
+        <vxe-column field="avatar" title="头像" width="80">
+          <template #default="{ row }">
+            <ElAvatar :src="row.avatar"></ElAvatar>
+          </template>
+        </vxe-column>
+        <vxe-column field="nickname" title="昵称"></vxe-column>
+        <vxe-column field="sex" width="80" title="性别"></vxe-column>
+        <vxe-column field="role_name" title="角色"></vxe-column>
+        <vxe-column field="account" title="账号"></vxe-column>
+        <vxe-column field="status" title="状态"></vxe-column>
         <vxe-column field="created_at" title="创建时间"></vxe-column>
         <vxe-column field="updated_at" title="更新时间"></vxe-column>
         <vxe-column title="操作" width="200" render-cell="action">

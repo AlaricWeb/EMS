@@ -5,46 +5,45 @@ import Navigator from "@/layout/Navigator.vue";
 import { useUserStore } from "@/stores/user";
 import { onMounted } from "vue";
 const userStore = useUserStore();
-
 onMounted(() => {
-    userStore.getUserInfo();
-})
+  userStore.getUserInfo();
+});
 </script>
 <template>
-    <ElContainer class="layout-container">
-        <ElAside class="layout-aside">
-            <NavMenu v-model="userStore.auth" />
-        </ElAside>
-        <ElContainer class="layout-content">
-            <ElHeader class="layout-header">
-                <Navigator></Navigator>
-            </ElHeader>
-            <ElMain class="layout-main">
-                <RouterView></RouterView>
-            </ElMain>
-        </ElContainer>
+  <ElContainer class="layout-container">
+    <ElAside class="layout-aside">
+      <NavMenu v-model="userStore.tree" />
+    </ElAside>
+    <ElContainer class="layout-content">
+      <ElHeader class="layout-header">
+        <Navigator></Navigator>
+      </ElHeader>
+      <ElMain class="layout-main">
+        <RouterView></RouterView>
+      </ElMain>
     </ElContainer>
+  </ElContainer>
 </template>
 <style lang="scss" scoped>
 .layout-container {
-    height: 100vh;
-    width: 100vw;
+  height: 100vh;
+  width: 100vw;
 
-    .layout-aside {
-        width: auto;
-        background-color: #000;
+  .layout-aside {
+    width: auto;
+    background-color: #000;
+  }
+
+  .layout-content {
+    .layout-header {
+      height: 82px;
+      padding: 0;
     }
 
-    .layout-content {
-        .layout-header {
-            height: 82px;
-            padding: 0;
-        }
-
-        .layout-main {
-            padding: 0 1em;
-            background-color: #f5f7fa;
-        }
+    .layout-main {
+      padding: 0 1em;
+      background-color: #f5f7fa;
     }
+  }
 }
 </style>

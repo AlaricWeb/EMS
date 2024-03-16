@@ -1,26 +1,21 @@
 import { definePostMock } from "../config";
+import { menu } from "../database/auth";
 import Mock from "mockjs";
-import { page, where, find } from "../utils";
-import { menu, role } from "../database/auth";
-
+import { page, find, where } from "../utils";
 export default definePostMock([
   {
     url: "/system/menu",
     method: "GET",
     delay: 500,
     body(request) {
-      let parent_id: number = request.query.parent_id || 0;
-      parent_id = typeof parent_id === "string" ? parseInt(parent_id) : parent_id;
-
-      const result = where(menu, { parent_id });
-      if (parent_id) {
-        return {
-          list: result,
-        };
-      }
+      const { page: start = 1, limit = 10 } = request.query;
+      const parent_id = request.query.parent_id || 0;
+      console.log(parent_id);
+      const result = where(menu.list, { parent_id });
+      const res = page(result, start, limit);
       return {
-        total: result.length,
-        list: page(result, request.query.page, request.query.limit),
+        total: menu.list.length,
+        list: res,
       };
     },
   },
@@ -29,7 +24,8 @@ export default definePostMock([
     method: "GET",
     body(request) {
       const id = request.params.id as number;
-      if (id && menu[id - 1]) return menu[id - 1];
+      const index = menu.list.findIndex((item) => item.id == id);
+      if (index) return menu.list[index];
       return {
         error_code: 400,
         msg: "author not found",
@@ -39,15 +35,12 @@ export default definePostMock([
   {
     url: "/system/menu",
     method: "POST",
-    body(request: { body: any }) {
-      request.body.id = Mock.Random.integer();
+    body(request) {
+      request.body.id = menu.list.length + 10;
+      request.body.created_at = Mock.Random.datetime();
+      request.body.updated_at = Mock.Random.datetime();
       //@ts-ignore
-      const roleName = find(role.list, {
-        id: request.body.system_role_id,
-      });
-      console.log(roleName);
-
-      menu.unshift(request.body);
+      menu.list.unshift(request.body);
       return request.body;
     },
   },
@@ -55,20 +48,27 @@ export default definePostMock([
     url: "/system/menu/:id",
     method: "PUT",
     body(request) {
-      // menu[]
       const id = request.params.id as number;
-      menu[id - 1] = Object.assign(menu[id - 1], request.body);
-      return menu[id - 1];
+      const index = menu.list.findIndex((item) => item.id == id);
+      Object.assign(menu.list[index], request.body);
+      return menu.list[index];
     },
   },
   {
     url: "/system/menu/:id",
     method: "DELETE",
     body(request) {
-      // menu[]
       const id = request.params.id as number;
-      menu.splice(id - 1, 1);
-      return menu[id - 1];
+      const index = menu.list.findIndex((item) => item.id == id);
+      const deleteRueslt = menu.list.splice(index, 1);
+      if (deleteRueslt) {
+        return {
+          error_code: 400,
+          msg: "author not found",
+        };
+      }
+      const result = menu.list[index];
+      return result;
     },
   },
 ]);

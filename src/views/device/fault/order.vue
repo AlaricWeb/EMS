@@ -4,6 +4,7 @@ import type { VxeTableInstance, VxeToolbarInstance } from "vxe-table";
 import { fetch, remove } from "@/api/system/role";
 import Editor from "./Editor.vue";
 import { useDialogForm } from "@/utils/tools";
+
 //#region table 部分
 const tableRef = ref<VxeTableInstance<Role>>();
 const toolbarRef = ref<VxeToolbarInstance>();

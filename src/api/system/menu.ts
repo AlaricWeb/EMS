@@ -1,25 +1,10 @@
-import type { Page, PageConfig } from "@/typing/page";
 import request from "@/utils/request";
 import { VXETable } from "vxe-table";
-
-export interface Menu {
-  name: string;
-  desc: string;
-  id: number;
-  has_children?: boolean;
-  children: Array<Menu>;
-  createTime: string;
-  updateTime: string;
-}
-
 const API = "/system/menu";
 export function fetch(params: PageConfig<Menu>) {
   const refresh = async () => {
     params.loading = true;
-    const result = await request.get<any, { total: number; list: Menu[] }>(
-      API,
-      { params: params.pager }
-    );
+    const result = await request.get<any, { total: number; list: Menu[] }>(API, { params: params.pager });
 
     params.loading = false;
     params.total = result.total;

@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 import { reactive, ref } from "vue";
-const API_URL = "/device";
+const API_URL = "/device_type";
 const config = reactive<PageConfig<User>>({
   pager: {
     page: 1,

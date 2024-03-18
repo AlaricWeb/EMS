@@ -25,17 +25,17 @@ const removeList = async (row: User) => {
       </VxeInput>
       <VxeButton status="primary" icon="vxe-icon-search" @click="refresh">搜索</VxeButton>
     </template>
-    <vxe-column field="nickname" title="设备名称"></vxe-column>
-    <vxe-column field="nickname" title="图片"></vxe-column>
-    <vxe-column field="nickname" title="设备编号"></vxe-column>
-    <vxe-column field="nickname" title="品牌型号"></vxe-column>
-    <vxe-column field="nickname" title="单位名称"></vxe-column>
-    <vxe-column field="nickname" title="设备状态"></vxe-column>
-    <vxe-column field="nickname" title="使用人"></vxe-column>
-    <vxe-column field="nickname" title="使用人电话"></vxe-column>
-    <vxe-column field="nickname" title="使用部门"></vxe-column>
-    <vxe-column field="nickname" title="短信提醒"></vxe-column>
-    <vxe-column field="nickname" title="设备分类"></vxe-column>
+    <vxe-column field="name" title="设备名称"></vxe-column>
+    <vxe-column field="image" title="图片"></vxe-column>
+    <vxe-column field="id" title="设备编号"></vxe-column>
+    <vxe-column field="brand" title="品牌型号"></vxe-column>
+    <vxe-column field="company_id" title="单位名称"></vxe-column>
+    <vxe-column field="status" title="设备状态"></vxe-column>
+    <vxe-column field="use_name" title="使用人"></vxe-column>
+    <vxe-column field="use_mobile" title="使用人电话"></vxe-column>
+    <vxe-column field="use_department" title="使用部门"></vxe-column>
+    <vxe-column field="sms_notification" title="短信提醒"></vxe-column>
+    <vxe-column field="deivce_category" title="设备分类"></vxe-column>
     <vxe-column field="nickname" title="购买/租赁"></vxe-column>
     <vxe-column field="nickname" title="过保/到期"></vxe-column>
     <vxe-column field="nickname" title="放置区域"></vxe-column>

@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import NavMenu, { type MenuItem } from "@/layout/NavMenu.vue";
-import { RouterView } from "vue-router";
+import { RouterView, useRouter } from "vue-router";
 import Navigator from "@/layout/Navigator.vue";
 import { useUserStore } from "@/stores/user";
 import { onMounted } from "vue";
 const userStore = useUserStore();
+const router = useRouter();
+console.log(router);
+
 onMounted(() => {
   userStore.getUserInfo();
 });

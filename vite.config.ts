@@ -1,5 +1,5 @@
 import { fileURLToPath, URL } from "node:url";
-import { ConfigEnv, defineConfig, loadEnv, UserConfigExport } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import mockDevServerPlugin from "vite-plugin-mock-dev-server";
 import inspect from "vite-plugin-inspect";

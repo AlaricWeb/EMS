@@ -1,6 +1,6 @@
 {
   "name": "test",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,7 +11,7 @@
     "type-check": "vue-tsc --build --force",
     "prepare": "husky",
     "release:changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "release": "bumpp package.json --execute=\"pnpm release:changelog\" --commit --all --push --tag && pnpm publish --access public"
+    "release": "bumpp package.json --execute=\"pnpm release:changelog\" --commit --all --push --tag "
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",

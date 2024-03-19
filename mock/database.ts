@@ -221,6 +221,7 @@ const template = {
     },
   ],
 };
+
 const database = Mock.mock(template);
 export default function (name: string) {
   const data: any[] = database[name] || [];

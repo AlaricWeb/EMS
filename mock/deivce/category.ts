@@ -7,7 +7,7 @@ export default defineMock([
     url: API_BASE,
     method: "GET",
     response(req, res, next) {
-      const { page = 1, limit = 10 } = req.query;
+      const { page = 1, limit = 10, parent_id = 0 } = req.query;
       const data = database(table);
       const result = {
         total: data.total,

@@ -3,7 +3,9 @@ import { ref, nextTick, onMounted, reactive } from "vue";
 import type { VxeTableInstance, VxeToolbarInstance } from "vxe-table";
 const props = defineProps<{
   refresh: () => void;
+  treeConfig?: any;
 }>();
+
 //#region table 部分
 const tableRef = ref<VxeTableInstance<T>>();
 const toolbarRef = ref<VxeToolbarInstance>();
@@ -31,16 +33,23 @@ defineExpose({
 <template>
   <div class="container">
     <!-- #region 表格 -->
-    <vxe-toolbar ref="toolbarRef" class-name="toolbar" perfect :refresh="{ queryMethod: refresh }" custom print export>
+    <vxe-toolbar
+      ref="toolbarRef"
+      class-name="toolbar"
+      perfect
+      :refresh="{ queryMethod: refresh }"
+      custom
+      print
+      export>
       <template #buttons>
         <slot name="button"></slot>
       </template>
     </vxe-toolbar>
-    <div style="height: calc(100vh - 240px)">
+    <div class="table-content">
       <vxe-table
         :loading="model.loading"
+        :tree-config="treeConfig"
         align="center"
-        height="100%"
         show-overflow
         show-header-overflow
         :border="true"
@@ -48,7 +57,7 @@ defineExpose({
         :print-config="{}"
         :data="model.listing">
         <vxe-column type="seq" width="60"></vxe-column>
-        <vxe-column field="id" title="id" width="60"></vxe-column> <slot></slot>
+        <slot></slot>
         <template #loading>
           <ElIcon class="is-loading">
             <svg class="circular" viewBox="0 0 20 20">
@@ -62,21 +71,32 @@ defineExpose({
           </ElIcon>
         </template>
       </vxe-table>
+      <vxe-pager
+        :loading="model.loading"
+        v-model:current-page="model.pager.page"
+        v-model:page-size="model.pager.limit"
+        :total="model.total"
+        @page-change="refresh"
+        :layouts="[
+          'PrevJump',
+          'PrevPage',
+          'Number',
+          'NextPage',
+          'NextJump',
+          'Sizes',
+          'FullJump',
+          'Total',
+        ]">
+      </vxe-pager>
     </div>
-    <vxe-pager
-      :loading="model.loading"
-      v-model:current-page="model.pager.page"
-      v-model:page-size="model.pager.limit"
-      :total="model.total"
-      @page-change="refresh"
-      :layouts="['PrevJump', 'PrevPage', 'Number', 'NextPage', 'NextJump', 'Sizes', 'FullJump', 'Total']">
-    </vxe-pager>
     <!-- #endregion -->
   </div>
 </template>
 <style lang="scss" scoped>
-.toolbar {
-  background-color: #ffffff;
-  border: none;
+.container {
+  .toolbar {
+    background-color: #fff;
+    border: none;
+  }
 }
 </style>

@@ -174,6 +174,36 @@ const template = {
       updated_at: "@datetime",
     },
   ],
+  "device_category|16": [
+    {
+      id: "@increment",
+      "name|1": [
+        "电子设备",
+        "机械设备",
+        "电气设备",
+        "通信设备",
+        "医疗设备",
+        "工业设备",
+        "家用电器",
+        "安全设备",
+        "建筑设备",
+        "航空航天设备",
+        "农业设备",
+        "办公设备",
+        "运输设备",
+        "环保设备",
+        "科研设备",
+        "教育设备",
+        "体育设备",
+        "娱乐设备",
+        "消防设备",
+        "军事设备",
+      ],
+      has_children: true,
+      created_at: "@datetime",
+      updated_at: "@datetime",
+    },
+  ],
   "company|16": [
     {
       id: "@increment",
@@ -203,12 +233,18 @@ export default function (name: string) {
         });
       });
     },
+    where(condition) {
+      return data.filter((item) => {
+        return Object.keys(condition).every((key) => {
+          return item[key] == condition[key];
+        });
+      });
+    },
     page(p: number, l: number) {
       p = Number(p);
       l = Number(l);
       const start = (p - 1) * l;
       let end = start + l;
-      console.log(data);
 
       if (end > data.length) end = data.length;
       return data.slice(start, end);

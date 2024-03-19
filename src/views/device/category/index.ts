@@ -1,6 +1,6 @@
 import request from "@/utils/request";
 import { reactive, ref } from "vue";
-const API_URL = "/device";
+const API_URL = "/device_category";
 const config = reactive<PageConfig<User>>({
   pager: {
     page: 1,
@@ -23,7 +23,6 @@ export function fetchList() {
       })
       .catch((error) => {
         config.loading = false;
-        console.log(error);
       });
   };
   return {
@@ -31,7 +30,12 @@ export function fetchList() {
     refresh,
   };
 }
-
+export async function fetch_children({ row }) {
+  const parent_id = row.id || 0;
+  //@ts-ignore
+  const { list } = await request.get(API_URL, { params: { parent_id } });
+  return list;
+}
 export function created(data: User) {
   if (data.id) {
     return request.put(`${API_URL}/${data.id}`, data);

@@ -37,10 +37,12 @@ defineExpose({
 </script>
 <template>
   <ElDialog v-model="visible" width="40%" draggable custom-class="form-dialog">
-    <template #title>
-      <slot name="title" :data="formData"></slot>
-    </template>
-    <ElForm style="max-height: 500px; overflow: auto; padding: 1em" ref="formRef" :model="formData" label-width="80">
+    <slot name="header" :data="formData"></slot>
+    <ElForm
+      style="max-height: 500px; overflow: auto; padding: 1em"
+      ref="formRef"
+      :model="formData"
+      label-width="80">
       <slot :data="formData"></slot>
     </ElForm>
     <template #footer>

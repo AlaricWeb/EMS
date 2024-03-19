@@ -29,19 +29,25 @@ const removeList = async (row: User) => {
       </VxeInput>
       <VxeButton status="primary" icon="vxe-icon-search" @click="refresh">搜索</VxeButton>
     </template>
-    <vxe-column field="name" title="设备名称"></vxe-column>
-    <vxe-column field="image" title="图片">
-      <template #default="{ row }">
-        <ElAvatar :src="row.image"></ElAvatar>
-      </template>
-    </vxe-column>
+    <vxe-colgroup field="use" title="设备">
+      <vxe-column field="id" title="设备编号" width="100"></vxe-column>
+      <vxe-column field="name" title="设备名称"></vxe-column>
+      <vxe-column field="image" title="图片" width="100">
+        <template #default="{ row }">
+          <ElImage :src="row.image" style="width: 100%; height: 40px"></ElImage>
+        </template>
+      </vxe-column>
+      <vxe-column field="brand" title="品牌型号"></vxe-column>
+    </vxe-colgroup>
     <!-- <vxe-column field="id" title="设备编号"></vxe-column> -->
-    <vxe-column field="brand" title="品牌型号"></vxe-column>
+
     <vxe-column field="company_name" width="200" title="单位名称"></vxe-column>
     <vxe-column field="status_name" title="设备状态"></vxe-column>
-    <vxe-column field="use_name" title="使用人"></vxe-column>
-    <vxe-column field="use_mobile" title="使用人电话"></vxe-column>
-    <vxe-column field="use_department" title="使用部门"></vxe-column>
+    <vxe-colgroup field="use" title="使用人">
+      <vxe-column field="use_name" title="使用人"></vxe-column>
+      <vxe-column field="use_mobile" title="使用人电话"></vxe-column>
+      <vxe-column field="use_department" title="使用部门"></vxe-column>
+    </vxe-colgroup>
     <vxe-column field="sms_notify" title="短信提醒">
       <template #default="{ row }">
         <ElSwitch v-model="row.sms_notify" :active-value="1" :inactive-value="0"></ElSwitch>

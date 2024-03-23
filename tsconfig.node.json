@@ -5,8 +5,7 @@
     "vitest.config.*",
     "cypress.config.*",
     "nightwatch.conf.*",
-    "playwright.config.*",
-    "mock/**/*.js"
+    "playwright.config.*"
   ],
   "compilerOptions": {
     "composite": true,

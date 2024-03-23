@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import request from "@/utils/request";
 import type { MenuItem } from "@/layout/NavMenu.vue";
 import { convertToTree } from "@/utils/tools";
-
 interface Userinfo {
   token: string;
   userinfo: null | User;
@@ -19,22 +18,21 @@ export const useUserStore = defineStore("user", {
   },
   actions: {
     async login(account: string, password: string) {
-      try {
-        const data = await request.post<any, { token?: string; auth?: MenuItem[] }>("/login/password", {
+      const data = await request.post<any, { token?: string; auth?: MenuItem[] }>(
+        "/login/password",
+        {
           account,
           password,
-        });
-        if (data.token && data.auth) {
-          this.token = data.token;
-          this.auth = data.auth;
         }
-        delete data.auth;
-        delete data.token;
-        this.userinfo = data as User;
-        return data;
-      } catch (error) {
-        return false;
+      );
+      if (data.token && data.auth) {
+        this.token = data.token;
+        this.auth = data.auth;
       }
+      delete data.auth;
+      delete data.token;
+      this.userinfo = data as User;
+      return data;
     },
     async getUserInfo() {
       try {

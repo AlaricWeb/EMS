@@ -6,7 +6,11 @@ import { useUserStore } from "@/stores/user";
 import { onMounted } from "vue";
 const userStore = useUserStore();
 const router = useRouter();
-
+for(let i =0; i<100; i++){
+  
+   console.log(i);
+   
+}
 onMounted(() => {
   userStore.getUserInfo();
 });

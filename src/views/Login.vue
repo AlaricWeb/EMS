@@ -20,9 +20,6 @@ const formData = reactive<FormData>({
 })
 const onSubmit = async () => {
   const userinfo  = await userStore.login(formData.account, formData.password);
-  if (userinfo) {
-    router.replace('/')
- }
  ElMessage.success({
    message:"登录成功",
  })

@@ -6,6 +6,7 @@ import inspect from "vite-plugin-inspect";
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, "");
   return {
+    base: "/EMS",
     plugins: [vue(), inspect()],
     server: {
       host: true,

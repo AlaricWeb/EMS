@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T">
 import type { CascaderProps, CascaderNode, CascaderValue } from "element-plus";
-import { fetchList, type Menu } from "@/api/system/menu";
+import { fetchList, } from "@/api/system/menu";
 //@ts-ignore
 const model: CascaderValue = defineModel<T>({
   required: true,
